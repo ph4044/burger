@@ -1,0 +1,28 @@
+#jumbo{
+    color: green;
+    align-content: center;
+}
+
+img{
+    width:100px;
+    margin-right: 10px;
+}
+
+.button-size {
+    padding: 0;
+  }
+
+#add-burger{
+    margin-bottom: 10px;
+}
+
+button{
+    margin-top: 10px;    
+}
+
+#eat-button{
+    margin:0;}
+
+.form-control{
+    margin-top: 2px;
+}

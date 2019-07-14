@@ -1,72 +1,57 @@
-<h1>Eat Da Burger</h1>
+<div class="container">
+  <div class="row">
+    {{!-- <h1>Eat Da Burger App</h1> --}}
+    <img src="/assets/img/burger.png" alt="burger" />
+    <h1 id="jumbo" class="display-4 text-center">Eat Da Burger App</h1>
+  </div>
+  <hr>
 
-<ul>
-  {{#each plans}}
-  <li>
-    <p>
-      {{this.id}}. {{this.plan}}
+  <div class="row" id="add-burger">
+    <div class="form-group col-md-7 text-left">
+      <h2>Add a Burger</h2>
+      <div class="row">
+        {{!-- <label for="exampleInputPassword1">Add a Burger</label> --}}
+        <div class="form-group col-md-7" id="add-burger">
+          <form action="/burgers/create" method="POST">
+            <input type="text" class="form-control" name="burger_name" id="exampleInputPassword1">
+            <button type="submit" class="btn btn-primary">Add Da Burger!</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
-      <button data-planid="{{this.id}}" class="delplan">Delete Plan!</button>
-    </p>
-  </li>
-  {{/each}}
-</ul>
+  <div class="row" id="burger-status">
+    <div class="col-md-7 text-left">
+      
+        <h2>To-Be-Devoured Burgers!</h2>
+        <div class="row">
+        <!-- for each burger, unless devoured, output the name -->
+        {{#each burger_data}}
+        {{#unless this.devoured}}
+        <div class="col-md-7 text-left">
+          <input class="form-control" type="text" placeholder="{{this.id}} . {{this.burger_name}}" readonly>
+        </div>
 
-<h2>Add a Burger</h2>
-<form id="addburger" class="button-size">
-  <textarea type="text" name="burger"></textarea>
-  <button type="submit">Add Burger!</button>
-</form>
+        <div class="col-md-4 text-left">
+          <form class="devour-button button-size">
+            <button type="submit" id="eat-button" class="btn btn-success burger_id" value={{this.id}}>Eat Da
+              Burger!</button>
+          </form>
+        </div>
+        {{/unless}}
+        {{/each}}
+      </div>
+    </div>
 
-<h2>Devour</h2>
-<form id="updateplan" class="button-size">
-  <select name="id">
-		{{#each plans}}
-			<option value="{{this.id}}">{{this.plan}}</option>
-		{{/each}}
-	</select>
-  <textarea type="text" name="plan" placeholder="plan"></textarea>
-  <button type="submit">Update Plan!</button>
-</form>
+    <div class="col-md-4 text-center" class="task">
+      <h2>Devoured Burgers!</h2>
+      {{#each burger_data}}
+      {{#if this.devoured}}
+      <input class="form-control" type="text" placeholder="{{this.id}} . {{this.burger_name}}" readonly>
+      {{/if}}
+      {{/each}}
+    </div>
+  </div>
 
-<script type="text/javascript">
-  $(".delplan").on("click", function(event) {
-    // Get the ID from the button.
-    // This is shorthand for $(this).attr("data-planid")
-    var id = $(this).data("planid");
-
-    // Send the DELETE request.
-    $.ajax("/api/plans/" + id, {
-      type: "DELETE"
-    }).then(
-      function() {
-        console.log("deleted id ", id);
-        // Reload the page to get the updated list
-        location.reload();
-      }
-    );
-  });
-
-  $("#addburger").on("submit", function(event) {
-    // Make sure to preventDefault on a submit event.
-    event.preventDefault();
-
-    // [name=plan] will find an element with a "name" attribute equal to the string "plan"
-    var newBurger = {
-      plan: $("#addburger [name=burger]").val().trim()
-    };
-
-    // Send the POST request.
-    $.ajax("/api/plans", {
-      type: "POST",
-      data: newBurger
-    }).then(
-      function() {
-        console.log("added new burger");
-        // Reload the page to get the updated list
-        location.reload();
-      }
-    );
-  });
- 
-</script>
+</div>
